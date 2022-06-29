@@ -1,0 +1,32 @@
+import pandas as pd
+import pickle
+
+f1 = pd.read_excel(io=r'/home/markus/IFL/NSGA-Model/data-excel/tt.ods')
+# data = f1.head()  # default get 5 rows
+data = f1
+f1.to_pickle('/home/markus/IFL/NSGA-Model/data-excel/tt')
+f2 = pd.read_pickle('/home/markus/IFL/NSGA-Model/data-excel/tt')
+# data2 = f2.head()
+data2 = f2
+print("get all value:\n{0}".format(data2))  # formatted output
+
+with open('/home/markus/IFL/NSGA-Model/data-excel/tt', 'rb') as f:
+    tt = pickle.load(f)
+
+Q = tt[['tq_id', 'percentage_residues_w_q', 'percentage_mass_reduction_w_q', 'number_q', 'capacity_w']]. \
+    set_index('tq_id').to_dict()
+Q_id = list(tt['tq_id'].unique())
+
+Beta = {}
+R = {}
+NQ = {}
+
+for i in range(len(Q_id)):
+    w = tt['capacity_w'][i]
+    q = tt['tq_id'][i]
+
+    Beta[w, q] = tt['percentage_residues_w_q'][i]
+    R[w, q] = tt['percentage_mass_reduction_w_q'][i]
+    NQ = tt['number_q'][i]
+
+    print(NQ)

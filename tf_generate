@@ -1,0 +1,36 @@
+import pandas as pd
+import pickle
+
+f1 = pd.read_excel(io=r'/home/markus/IFL/NSGA-Model/data-excel/tf.ods')
+# data = f1.head()  # default get 5 rows
+data = f1
+f1.to_pickle('/home/markus/IFL/NSGA-Model/data-excel/tf')
+f2 = pd.read_pickle('/home/markus/IFL/NSGA-Model/data-excel/tf')
+# data2 = f2.head()
+data2 = f2
+print("get all value:\n{0}".format(data2))  # formatted output
+
+with open('/home/markus/IFL/NSGA-Model/data-excel/tf', 'rb') as f:
+    tf = pickle.load(f)
+
+TF = tf[['etf_id', 'tf_id', 'establish _cost_tf', 'capacity_t', 'fixed_cost_q_t', 'variable_cost_q_t', 'tq_id']]. \
+    set_index('tf_id').to_dict()
+T_id = list(tf['tf_id'].unique())
+T1_id = list(tf['etf_id'].unique())
+Q1_id = list(tf['tq_id'].unique())
+
+TC = {}
+FT = {}
+FCT = {}
+VCT = {}
+
+for i in range(len(T_id)):
+    t = tf['tf_id'][i]
+    q = tf['tq_id'][i]
+
+    TC[t] = tf['capacity_t'][i]
+    FT[q, i] = tf['establish _cost_tf'][i]
+    FCT[q, t] = tf['fixed_cost_q_t'][i]
+    VCT[q, t] = tf['variable_cost_q_t'][i]
+
+    print(VCT[q, t])

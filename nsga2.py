@@ -9,6 +9,7 @@ import gurobipy
 
 # index set
 # source nodes g
+# change the path name with ur need
 with open('/home/markus/IFL/NSGA-Model/data-excel/sn', 'rb') as f:
     sn = pickle.load(f)
 

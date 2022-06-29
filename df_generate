@@ -1,0 +1,30 @@
+import pandas as pd
+import pickle
+
+f1 = pd.read_excel(io=r'/home/markus/IFL/NSGA-Model/data-excel/df.ods')
+# data = f1.head()  # default get 5 rows
+data = f1
+f1.to_pickle('/home/markus/IFL/NSGA-Model/data-excel/df')
+f2 = pd.read_pickle('/home/markus/IFL/NSGA-Model/data-excel/df')
+# data2 = f2.head()
+data2 = f2
+print("get all value:\n{0}".format(data2))  # formatted output
+
+with open('/home/markus/IFL/NSGA-Model/data-excel/df', 'rb') as f:
+    df = pickle.load(f)
+
+DF = df[['edf_id', 'df_id', 'establish _cost_df', 'capacity_f', 'variable_cost_f']].set_index('df_id').to_dict()
+F_id = list(df['df_id'].unique())
+F1_id = list(df['edf_id'].unique())
+
+FF = {}
+FC = {}
+VCF = {}
+for i in range(len(F_id)):
+    f = df['df_id'][i]
+
+    FF[i] = df['establish _cost_df'][i]
+    FC[f] = df['capacity_f'][i]
+    VCF[f] = df['variable_cost_f'][i]
+
+    print(VCF[f])

@@ -1,0 +1,27 @@
+import pandas as pd
+import pickle
+
+f1 = pd.read_excel(io=r'/home/markus/IFL/NSGA-Model/data-excel/hwt.ods')
+# data = f1.head()  # default get 5 rows
+data = f1
+f1.to_pickle('/home/markus/IFL/NSGA-Model/data-excel/hwt')
+f2 = pd.read_pickle('/home/markus/IFL/NSGA-Model/data-excel/hwt')
+# data2 = f2.head()
+data2 = f2
+print("get all value:\n{0}".format(data2))  # formatted output
+
+with open('/home/markus/IFL/NSGA-Model/data-excel/hwt', 'rb') as f:
+    hwt = pickle.load(f)
+
+W = hwt[['capacity_w', 'hwt_id']].set_index('hwt_id').to_dict()
+W_id = list(hwt['hwt_id'].unique())
+print(W_id)
+# Delta[w] = W['capacity_w']
+print(hwt['capacity_w'][0])
+Delta = {}
+
+for i in range(len(W_id)):
+    w = i
+    Delta[w] = hwt['capacity_w'][i]
+
+    print(Delta[w])

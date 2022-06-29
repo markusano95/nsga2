@@ -1,0 +1,44 @@
+import pandas as pd
+import pickle
+import gurobipy
+
+f1 = pd.read_excel(io=r'/home/markus/IFL/NSGA-Model/data-excel/sn.ods')
+# data = f1.head()  # default get 5 rows
+data = f1
+f1.to_pickle('/home/markus/IFL/NSGA-Model/data-excel/sn')
+f2 = pd.read_pickle('/home/markus/IFL/NSGA-Model/data-excel/sn')
+# data2 = f2.head()
+data2 = f2
+print("get all value:\n{0}".format(data2))  # formatted output
+
+with open('/home/markus/IFL/NSGA-Model/data-excel/sn', 'rb') as f:
+    sn = pickle.load(f)
+
+G = sn[['sn_id', 'unit_cost',
+        'population_ij', 'population_i', 'w1_amount', 'storage_cost']]. \
+    set_index('sn_id').to_dict()
+G_id = list(sn['sn_id'].unique())  # get source node list
+C = {}
+POP = {}
+PA = {}
+D = {}
+HC = {}
+
+for m in range(len(G_id)):
+    i = sn['sn_id'][m]
+    j = sn['sn_id'][m]
+    g = sn['sn_id'][m]
+    w1 = sn['sn_id'][m]
+    # print(type(g))
+
+    C[i, j] = sn['unit_cost'][m]
+    POP[i, j] = sn['population_ij'][m]
+    PA[i] = sn['population_i'][m]
+    D[g, w1] = sn['w1_amount'][m]
+    HC[i] = sn['storage_cost'][m]
+
+    # print(POP[i, j])
+
+    # D[g, w] = sn['w1_amount'][i]
+
+    print(D[g, w1])

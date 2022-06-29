@@ -1,0 +1,18 @@
+import pandas as pd
+import pickle
+
+f1 = pd.read_excel(io=r'/home/markus/IFL/NSGA-Model/data-excel/tp.ods')
+# data = f1.head()  # default get 5 rows
+data = f1
+f1.to_pickle('/home/markus/IFL/NSGA-Model/data-excel/tp')
+f2 = pd.read_pickle('/home/markus/IFL/NSGA-Model/data-excel/tp')
+# data2 = f2.head()
+data2 = f2
+print("get all value:\n{0}".format(data2))  # formatted output
+
+with open('/home/markus/IFL/NSGA-Model/data-excel/tp', 'rb') as f:
+    tp = pickle.load(f)
+
+H = tp[['tp_id']].set_index('tp_id').to_dict()
+H_id = list(tp['tp_id'].unique())
+print(H_id)

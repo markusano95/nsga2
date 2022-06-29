@@ -1,0 +1,32 @@
+import pandas as pd
+import pickle
+
+f1 = pd.read_excel(io=r'/home/markus/IFL/NSGA-Model/data-excel/rf.ods')
+# data = f1.head()  # default get 5 rows
+data = f1
+f1.to_pickle('/home/markus/IFL/NSGA-Model/data-excel/rf')
+f2 = pd.read_pickle('/home/markus/IFL/NSGA-Model/data-excel/rf')
+# data2 = f2.head()
+data2 = f2
+print("get all value:\n{0}".format(data2))  # formatted output
+
+with open('/home/markus/IFL/NSGA-Model/data-excel/rf', 'rb') as f:
+    rf = pickle.load(f)
+
+RF = rf[['erf_id', 'rf_id', 'establish _cost_rf', 'percentage_recycled_r', 'capacity_r',
+         'variable_cost_r']].set_index('rf_id').to_dict()
+R_id = list(rf['rf_id'].unique())
+R1_id = list(rf['erf_id'].unique())
+
+FR = {}
+W = {}
+RC = {}
+VCR = {}
+for i in range(len(R_id)):
+    r = rf['rf_id'][i]
+    FR[i] = rf['establish _cost_rf'][i]
+    W[r] = rf['percentage_recycled_r'][i]
+    RC[r] = rf['capacity_r'][i]
+    VCR[r] = rf['variable_cost_r'][i]
+
+    print(FR[i])

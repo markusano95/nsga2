@@ -1,0 +1,18 @@
+import pandas as pd
+import pickle
+
+f1 = pd.read_excel(io=r'/home/markus/IFL/NSGA-Model/data-excel/cv.ods')
+# data = f1.head()  # default get 5 rows
+data = f1
+f1.to_pickle('/home/markus/IFL/NSGA-Model/data-excel/cv')
+f2 = pd.read_pickle('/home/markus/IFL/NSGA-Model/data-excel/cv')
+# data2 = f2.head()
+data2 = f2
+print("get all value:\n{0}".format(data2))  # formatted output
+
+with open('/home/markus/IFL/NSGA-Model/data-excel/cv', 'rb') as f:
+    cv = pickle.load(f)
+
+K = cv[['cv_id']].set_index('cv_id').to_dict()
+K_id = list(cv['cv_id'].unique())
+print(K_id)
